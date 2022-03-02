@@ -1,9 +1,11 @@
 package net.javaguide.springbootcrud.controller;
 
+import com.sun.deploy.net.HttpResponse;
 import net.javaguide.springbootcrud.exception.ResourseNotFoundException;
 import net.javaguide.springbootcrud.model.Employee;
 import net.javaguide.springbootcrud.repository.EmployeeRepositary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,15 @@ public class EmployeeController {
 
         employeeRepositary.save(updateEmployee);
         return ResponseEntity.ok(updateEmployee);
+    }
+
+    //Delete employee API
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable  Integer id){
+        Employee employee=employeeRepositary.findById(id)
+                .orElseThrow(()-> new ResourseNotFoundException("Employe not exist with id"+id));
+        employeeRepositary.delete(employee);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
