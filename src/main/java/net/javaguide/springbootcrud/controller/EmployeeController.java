@@ -1,8 +1,10 @@
 package net.javaguide.springbootcrud.controller;
 
+import net.javaguide.springbootcrud.exception.ResourseNotFoundException;
 import net.javaguide.springbootcrud.model.Employee;
 import net.javaguide.springbootcrud.repository.EmployeeRepositary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,14 @@ public class EmployeeController {
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee){
         return employeeRepositary.save(employee);
+    }
+
+    // Get data/ filter data by Id
+    @GetMapping("{id}")
+    public ResponseEntity<Employee> getEmployeeById( @PathVariable Integer id){
+       Employee employee = employeeRepositary.findById(id)
+               .orElseThrow(()->new ResourseNotFoundException("There is not such data with id "+id));
+        return ResponseEntity.ok(employee);
     }
 
 }
