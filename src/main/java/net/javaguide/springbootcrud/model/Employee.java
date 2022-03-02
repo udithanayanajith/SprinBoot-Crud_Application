@@ -17,7 +17,12 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "contact")
     private Integer contact;
+
+    @Column(name = "address")
     private String address;
 }
